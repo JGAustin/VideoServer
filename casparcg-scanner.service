@@ -1,0 +1,16 @@
+[Unit]
+Description=CasparCG media scanner service
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/casparcg
+User=casparcg
+Group=casparcg
+ExecStart=/usr/bin/casparcg-scanner
+RestartSec=1
+Restart=always
+StartLimitInterval=0
+
+[Install]
+WantedBy=default.target
