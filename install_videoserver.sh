@@ -5,40 +5,32 @@ fi
 
 WORKINGDIR=$PWD
 
-# install x server, unclutter (to hide the mouse) and some tools I used in the debug process
-apt install -y xserver-xorg xinit x11-xserver-utils mesa-utils openbox unclutter vim
+echo
+echo "Select CasparCG output consumer:"
+echo "  1) Screen (HDMI/monitor)"
+echo "  2) DeckLink / UltraStudio"
+read -rp "Enter choice [1-2]: " choice
 
+# some quality of life tools for debugging
+apt install vim less
+
+# set up the service account
 useradd -r -m casparcg
 usermod -aG video,audio casparcg
+
 # Add current user to the casparcg group to make media file managemnt easier
 usermod -aG casparcg $USER
-
-# prepare x settings for casparcg user:
-mkdir /home/casparcg/.xinitrc.d
-chmod 770 /home/casparcg/.xinitrc.d
-chown casparcg:casparcg /home/casparcg/.xinitrc.d
-cp xinitrc /home/casparcg/.xinitrc
-chmod 755 /home/casparcg/.xinitrc
-chown casparcg:casparcg /home/casparcg/.xinitrc
 
 # kill auto-updates and quiet motd
 systemctl disable apt-daily.timer apt-daily-upgrade.timer
 systemctl mask motd-news.timer
 
-#disable screen blanking
-sudo -u casparcg bash -c 'echo "xset -dpms; xset s off" >> ~/.xinitrc'
-
-mkdir /opt/casparcg
-cp casparcg.conf /opt/casparcg
-chown -R casparcg:casparcg /opt/casparcg
-
-# Xwrapper.config allows us to run from non-attached console (IE a service or ssh session)
-cp Xwrapper.config /etc/X11/Xwrapper.config
-
-# Copy the services into place
-cp casparcg.service /etc/systemd/system/
+# copy the services that get installed for either option
 cp casparcg-scanner.service /etc/systemd/system/
 cp companion.service /etc/systemd/system/
+
+# create the casparcg working directory:
+mkdir /opt/casparcg
 
 # get the installers for Casparcg.  This has to be somewhere that the 'apt' user can read them so lets make a temp folder
 mkdir /opt/tmp
@@ -51,9 +43,68 @@ wget https://github.com/CasparCG/media-scanner/releases/download/v1.3.4/casparcg
 # Run all the installers
 apt install ./*.deb
 
-# go back where we came from and clean up
+# go back where we came from
 cd $WORKINGDIR
+
+
+case "$choice" in
+  1)
+    echo "Configuring Screen consumer..."
+
+    # install x server, unclutter (to hide the mouse)
+    apt install -y xserver-xorg xinit x11-xserver-utils mesa-utils openbox unclutter
+
+    # prepare x settings for casparcg user:
+    mkdir -p /home/casparcg/.xinitrc.d
+    chmod 770 /home/casparcg/.xinitrc.d
+    chown casparcg:casparcg /home/casparcg/.xinitrc.d
+    cp xinitrc /home/casparcg/.xinitrc
+    chmod 755 /home/casparcg/.xinitrc
+    chown casparcg:casparcg /home/casparcg/.xinitrc
+
+    #disable screen blanking
+    sudo -u casparcg bash -c 'echo "xset -dpms; xset s off" >> ~/.xinitrc'
+
+    # Xwrapper.config allows us to run from non-attached console (IE a service or ssh session)
+    cp Xwrapper.config /etc/X11/Xwrapper.config
+
+    # Copy the casparcg-x service and config files into place
+    cp casparcg-x.service /etc/systemd/system/casparcg.service 
+    cp casparcg-x.conf /opt/casparcg/casparcg.conf
+
+    ;;
+  2)
+    echo "Configuring DeckLink consumer..."
+
+    # install build tools and dkms:
+    apt install -y build-essential linux-headers-$(uname -r) dkms
+
+    read -rp Please provide Blackmagic Designs Desktop Video Linux Download URL: url
+
+    wget $url
+    
+    mv Blackmagic_Desktop_Video_Linux* BMD_DVL.tar.gz
+    tar -xf BMD_DVL.tar.gz
+
+    mv ./Blackmagic*/deb/x86_64/desktopvideo_*.deb /opt/tmp/BMD_DVL.deb
+
+    apt install -y /opt/tmp/BMD_DVL.deb
+
+    # Copy the casparcg-decklink into place
+    cp casparcg-decklink.service /etc/systemd/system/casparcg.service
+    ;;
+  *)
+    echo "Invalid choice, Exiting"
+    exit
+    ;;
+esac
+
+# clean up the deb installer folder
 rm -rf /opt/tmp
+
+# set the ownership of the Casparcg folder to the service account
+chown -R casparcg:casparcg /opt/casparcg
+
 
 ############## Companion ################
 useradd -r companion

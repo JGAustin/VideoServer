@@ -11,6 +11,8 @@ ExecStart=/usr/bin/casparcg-scanner
 RestartSec=1
 Restart=always
 StartLimitInterval=0
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=default.target

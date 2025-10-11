@@ -1,0 +1,18 @@
+[Unit]
+Description=CasparCG headless Decklink output
+After=systemd-user-sessions.service network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/casparcg
+User=casparcg
+Group=casparcg
+ExecStart=/usr/bin/casparcg-server-2.4 /opt/casparcg/casparcg.conf
+Restart=on-failure
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
