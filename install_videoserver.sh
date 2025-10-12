@@ -15,7 +15,7 @@ echo "  2) DeckLink / UltraStudio"
 read -rp "Enter choice [1-2]: " choice
 
 # some quality of life tools for debugging
-apt install vim less
+apt install -y vim less
 
 # set up the service account
 useradd -r -m casparcg
@@ -44,7 +44,7 @@ wget https://github.com/CasparCG/server/releases/download/v2.4.3-stable/casparcg
 wget https://github.com/CasparCG/media-scanner/releases/download/v1.3.4/casparcg-scanner_1.3.4-ubuntu1_amd64.deb
 
 # Run all the installers
-apt install ./*.deb
+apt install -y ./*.deb
 
 # go back where we came from
 cd $WORKINGDIR
