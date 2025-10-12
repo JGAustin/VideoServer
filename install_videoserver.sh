@@ -7,6 +7,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 WORKINGDIR=$PWD
+INSTALL_USER="${SUDO_USER:-$USER}"
+
+echo "Current user: $INSTALL_USER"
 
 echo
 echo "Select CasparCG output consumer:"
@@ -33,10 +36,10 @@ cp casparcg-scanner.service /etc/systemd/system/
 cp companion.service /etc/systemd/system/
 
 # create the casparcg working directory:
-mkdir /opt/casparcg
+mkdir -p /opt/casparcg
 
 # get the installers for Casparcg.  This has to be somewhere that the 'apt' user can read them so lets make a temp folder
-mkdir /opt/tmp
+mkdir -p /opt/tmp
 chmod 705 /opt/tmp
 cd /opt/tmp
 wget https://github.com/CasparCG/server/releases/download/v2.4.3-stable/casparcg-server-2.4_2.4.3.stable-noble1_amd64.deb
