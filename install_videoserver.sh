@@ -106,13 +106,13 @@ esac
 # clean up the deb installer folder
 rm -rf /opt/tmp
 
-# set the ownership of the Casparcg folder to the service account
-chown -R casparcg:casparcg /opt/casparcg
-
 # Create and set the group write permission on the media dir
 #     so that the current user can manage media without sudo:
 mkdir -p /opt/casparcg/media
 chmod g+w /opt/casparcg/media
+
+# set the ownership of the Casparcg folder to the service account
+chown -R casparcg:casparcg /opt/casparcg
 
 ############## Companion ################
 useradd -r companion
