@@ -73,7 +73,7 @@ case "$choice" in
 
     # Copy the casparcg-x service and config files into place
     cp casparcg-x.service /etc/systemd/system/casparcg.service 
-    cp casparcg-x.conf /opt/casparcg/casparcg.conf
+    cp casparcg-x.config  /opt/casparcg/casparcg.config 
 
     ;;
   2)
@@ -93,8 +93,9 @@ case "$choice" in
 
     apt install -y /opt/tmp/BMD_DVL.deb
 
-    # Copy the casparcg-decklink into place
+    # Copy the casparcg-decklink service and config files into place
     cp casparcg-decklink.service /etc/systemd/system/casparcg.service
+    cp casparcg-decklink.config  /opt/casparcg/casparcg.config 
     ;;
   *)
     echo "Invalid choice, Exiting"
@@ -108,6 +109,10 @@ rm -rf /opt/tmp
 # set the ownership of the Casparcg folder to the service account
 chown -R casparcg:casparcg /opt/casparcg
 
+# Create and set the group write permission on the media dir
+#     so that the current user can manage media without sudo:
+mkdir -p /opt/casparcg/media
+chmod g+w /opt/casparcg/media
 
 ############## Companion ################
 useradd -r companion
