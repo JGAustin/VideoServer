@@ -65,9 +65,6 @@ case "$choice" in
     chmod 755 /home/casparcg/.xinitrc
     chown casparcg:casparcg /home/casparcg/.xinitrc
 
-    #disable screen blanking
-    sudo -u casparcg bash -c 'echo "xset -dpms; xset s off" >> ~/.xinitrc'
-
     # Xwrapper.config allows us to run from non-attached console (IE a service or ssh session)
     cp Xwrapper.config /etc/X11/Xwrapper.config
 
