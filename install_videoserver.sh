@@ -57,8 +57,26 @@ case "$choice" in
   1)
     echo "Configuring Screen consumer..."
 
+    # Ensure the user has a user manager even without logins  # Chatgpt add
+    sudo loginctl enable-linger casparcg
+
     # install x server, unclutter (to hide the mouse)
+    apt update
     apt install -y xserver-xorg xinit x11-xserver-utils mesa-utils openbox unclutter
+    # these supply libraries that the version working on a full desktop ubuntu were 
+    #     using that this installation was not
+    apt install -y \
+      dconf-gsettings-backend \
+      gvfs-daemons gvfs-libs \
+      libcanberra-gtk3-0 libcanberra-gtk3-module libcanberra0 \
+      libltdl7 \
+      libnss3 \
+      libpipewire-0.3-0 pipewire \
+      libspa-0.2-modules \
+      libsecret-1-0 \
+      libsqlite3-0 \
+      libtdb1 \
+      libc-bin
 
     # prepare x settings for casparcg user:
     mkdir -p /home/casparcg/.xinitrc.d
