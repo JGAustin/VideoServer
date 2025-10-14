@@ -25,7 +25,7 @@ useradd -r -m casparcg
 usermod -aG video,audio casparcg
 
 # Add current user to the casparcg group to make media file managemnt easier
-usermod -aG casparcg $USER
+usermod -aG casparcg $INSTALL_USER
 
 # kill auto-updates and quiet motd
 systemctl disable apt-daily.timer apt-daily-upgrade.timer
