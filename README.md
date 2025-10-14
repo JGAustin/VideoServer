@@ -14,6 +14,6 @@ The media folder for casparcg is `/opt/casparcg/media`.  This will give your act
 Companion is running on port 8080 since casparcg-scanner uses port 8000
 
 # Why
-My church had a video server that rendered backgrounds and was controlled by the lighting operator via stream-deck at one campus.  This made scene transisitions seamless between lights and background graphics.  I realized I could make something professional and very inexpensive using casparcg.  I have the linux know-how to come up with a very robust solution that shouldn't get popups and will recover from crashes. ChatGPT and the CCG forumns can help fill in the gaps.  I remember trying to figure stuff like this out as a high-schooler.  Hopefully this helps future Mes!
+My church had a video server that rendered backgrounds and was controlled by the lighting operator via stream-deck at one campus.  This made scene transisitions seamless between lights and background graphics.  I realized I could make something professional and very inexpensive using casparcg.  I have (some of) the linux know-how to come up with a very robust solution that shouldn't get popups and should recover automatically from crashes. ChatGPT and the CCG forumns can help fill in the gaps.  I remember trying to figure stuff like this out as a high-schooler.  Hopefully this helps future Mes!
 
 ### Do not expose this to the internet ###
