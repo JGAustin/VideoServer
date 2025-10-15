@@ -57,12 +57,9 @@ case "$choice" in
   1)
     echo "Configuring Screen consumer..."
 
-    # Ensure the user has a user manager even without logins  # Chatgpt add
-    sudo loginctl enable-linger casparcg
-
-    # install x server, unclutter (to hide the mouse)
+    # install x server
     apt update
-    apt install -y xserver-xorg xinit x11-xserver-utils mesa-utils openbox unclutter
+    apt install -y xserver-xorg xinit x11-xserver-utils mesa-utils openbox
     # these supply libraries that the version working on a full desktop ubuntu were 
     #     using that this installation was not
     apt install -y \
