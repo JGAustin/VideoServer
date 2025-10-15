@@ -33,7 +33,7 @@ usermod -aG video,audio casparcg
 usermod -aG casparcg $INSTALL_USER
 
 # kill auto-updates and quiet motd
-systemctl disable apt-daily.timer apt-daily-upgrade.timer
+systemctl disable --now apt-daily.timer apt-daily-upgrade.timer
 systemctl mask motd-news.timer
 
 # copy the services that get installed for either option
