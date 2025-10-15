@@ -17,6 +17,11 @@ echo "  1) Screen (HDMI/monitor)"
 echo "  2) DeckLink / UltraStudio"
 read -rp "Enter choice [1-2]: " choice
 
+if [[ "$choice" != "1" && "$choice" != "2" ]]; then
+  echo "Invalid choice: must be 1 or 2."
+  exit 1
+fi
+
 # some quality of life tools for debugging
 apt install -y vim less
 
