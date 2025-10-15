@@ -1,7 +1,7 @@
 [Unit]
 Description=CasparCG headless X session
 After=systemd-user-sessions.service network.target
-Wants=network.target
+Wants=network-online.target
 
 [Service]
 User=casparcg
