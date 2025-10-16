@@ -8,7 +8,8 @@ Type=simple
 User=companion
 WorkingDirectory=/opt/companion
 ExecStart=/opt/companion/companion_headless.sh --admin-port 8080 --config-dir config
-Restart=on-failure
+Restart=always
+RestartSec=3
 KillSignal=SIGINT
 TimeoutStopSec=60
 
@@ -16,4 +17,4 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

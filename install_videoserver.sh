@@ -17,10 +17,14 @@ echo "  1) Screen (HDMI/monitor)"
 echo "  2) DeckLink / UltraStudio"
 read -rp "Enter choice [1-2]: " choice
 
-if [[ "$choice" != "1" && "$choice" != "2" ]]; then
-  echo "Invalid choice: must be 1 or 2."
-  exit 1
-fi
+choice=""
+while [[ "$choice" != "1" && "$choice" != "2" ]]; do
+  echo
+  echo "Select CasparCG output consumer:"
+  echo "  1) Screen (HDMI/monitor)"
+  echo "  2) DeckLink (SDI/HDMI via Blackmagic)"
+  read -rp "Enter 1 or 2: " choice
+done
 
 # some quality of life tools for debugging
 apt install -y vim less
@@ -88,9 +92,9 @@ case "$choice" in
     # install build tools and dkms:
     apt install -y build-essential linux-headers-$(uname -r) dkms
 
-    read -rp Please provide Blackmagic Designs Desktop Video Linux Download URL: url
+    read -rp "Please provide Blackmagic Designs Desktop Video Linux Download URL: " URL
 
-    wget $url
+    wget "$URL"
     
     mv Blackmagic_Desktop_Video_Linux* BMD_DVL.tar.gz
     tar -xf BMD_DVL.tar.gz
@@ -132,7 +136,6 @@ udevadm control --reload-rules
 
 # Make companion service account owner of this folder
 chown -R companion:companion /opt/companion
-
 
 #start the new services
 systemctl enable --now companion.service

@@ -1,6 +1,6 @@
 [Unit]
 Description=CasparCG headless X session
-After=systemd-user-sessions.service network.target
+After=network-online.target
 Wants=network-online.target
 
 [Service]
@@ -8,23 +8,25 @@ User=casparcg
 Group=casparcg
 WorkingDirectory=/opt/casparcg
 
-# Attach to a real VT so Xorg considers this a console session
-TTYPath=/dev/tty7
-StandardInput=tty
-TTYReset=yes
-TTYVHangup=yes
-
 Environment=DISPLAY=:0
 Environment=XDG_SESSION_TYPE=x11
 
 # Start X directly; run the user's .xinitrc
-# -keeptty helps some distros when starting from a service
-ExecStart=/usr/bin/xinit /home/casparcg/.xinitrc -- /usr/lib/xorg/Xorg :0 vt7 -nolisten tcp -keeptty
+ExecStart=/usr/bin/xinit /home/casparcg/.xinitrc -- /usr/lib/xorg/Xorg :0 vt7 -nolisten tcp
 
-Restart=on-failure
-RestartSec=3
+Restart=always
+RestartSec=1
 StandardOutput=journal
 StandardError=journal
+
+# Hardening suggested by ChatGPT (keeps GPU/DeckLink usable)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
 
 [Install]
 WantedBy=multi-user.target
