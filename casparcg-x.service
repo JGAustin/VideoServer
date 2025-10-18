@@ -11,6 +11,12 @@ WorkingDirectory=/opt/casparcg
 Environment=DISPLAY=:0
 Environment=XDG_SESSION_TYPE=x11
 
+# Attach to a real VT so Xorg considers this a console session
+TTYPath=/dev/tty7
+StandardInput=tty
+TTYReset=yes
+TTYVHangup=yes
+
 # Start X directly; run the user's .xinitrc
 ExecStart=/usr/bin/xinit /home/casparcg/.xinitrc -- /usr/lib/xorg/Xorg :0 vt7 -nolisten tcp
 
@@ -23,7 +29,6 @@ StandardError=journal
 NoNewPrivileges=yes
 PrivateTmp=yes
 ProtectSystem=full
-ProtectHome=yes
 CapabilityBoundingSet=
 LockPersonality=yes
 MemoryDenyWriteExecute=yes
