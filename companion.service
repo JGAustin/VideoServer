@@ -1,0 +1,20 @@
+[Unit]
+Description=Bitfocus Companion
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=companion
+WorkingDirectory=/opt/companion
+ExecStart=/opt/companion/companion_headless.sh --admin-port 8080 --config-dir config
+Restart=always
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=60
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

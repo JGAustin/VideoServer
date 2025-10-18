@@ -1,0 +1,27 @@
+[Unit]
+Description=CasparCG headless Decklink output
+After=systemd-user-sessions.service network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/casparcg
+User=casparcg
+Group=casparcg
+ExecStart=/usr/bin/casparcg-server-2.4 /opt/casparcg/casparcg.config
+Restart=always
+RestartSec=1
+StandardOutput=journal
+StandardError=journal
+
+# Hardening suggested by ChatGPT
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,37 @@
+[Unit]
+Description=CasparCG headless X session
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=casparcg
+Group=casparcg
+WorkingDirectory=/opt/casparcg
+
+Environment=DISPLAY=:0
+Environment=XDG_SESSION_TYPE=x11
+
+# Attach to a real VT so Xorg considers this a console session
+TTYPath=/dev/tty7
+StandardInput=tty
+TTYReset=yes
+TTYVHangup=yes
+
+# Start X directly; run the user's .xinitrc
+ExecStart=/usr/bin/xinit /home/casparcg/.xinitrc -- /usr/lib/xorg/Xorg :0 vt7 -nolisten tcp
+
+Restart=always
+RestartSec=1
+StandardOutput=journal
+StandardError=journal
+
+# Hardening suggested by ChatGPT (keeps GPU/DeckLink usable)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+
+[Install]
+WantedBy=multi-user.target
