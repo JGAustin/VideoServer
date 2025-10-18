@@ -11,12 +11,6 @@ INSTALL_USER="${SUDO_USER:-$USER}"
 
 echo "Current user: $INSTALL_USER"
 
-echo
-echo "Select CasparCG output consumer:"
-echo "  1) Screen (HDMI/monitor)"
-echo "  2) DeckLink / UltraStudio"
-read -rp "Enter choice [1-2]: " choice
-
 choice=""
 while [[ "$choice" != "1" && "$choice" != "2" ]]; do
   echo
