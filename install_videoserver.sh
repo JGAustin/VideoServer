@@ -24,8 +24,13 @@ done
 apt install -y vim less
 
 # set up the service account
-useradd -r -m casparcg
-usermod -aG video,audio casparcg
+if id "casparcg" >/dev/null 2>&1; then
+    echo "user casparcg already exists"
+else
+    useradd -r -m casparcg
+    usermod -aG video,audio casparcg
+fi
+
 
 # Add current user to the casparcg group to make media file managemnt easier
 usermod -aG casparcg $INSTALL_USER
