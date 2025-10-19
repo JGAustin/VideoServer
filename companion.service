@@ -1,7 +1,7 @@
 [Unit]
 Description=Bitfocus Companion
-After=network-online.target
-Wants=network-online.target
+Requires=network.target
+
 
 [Service]
 Type=simple

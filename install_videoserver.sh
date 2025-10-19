@@ -11,12 +11,6 @@ INSTALL_USER="${SUDO_USER:-$USER}"
 
 echo "Current user: $INSTALL_USER"
 
-echo
-echo "Select CasparCG output consumer:"
-echo "  1) Screen (HDMI/monitor)"
-echo "  2) DeckLink / UltraStudio"
-read -rp "Enter choice [1-2]: " choice
-
 choice=""
 while [[ "$choice" != "1" && "$choice" != "2" ]]; do
   echo
@@ -30,8 +24,13 @@ done
 apt install -y vim less
 
 # set up the service account
-useradd -r -m casparcg
-usermod -aG video,audio casparcg
+if id "casparcg" >/dev/null 2>&1; then
+    echo "user casparcg already exists"
+else
+    useradd -r -m casparcg
+    usermod -aG video,audio casparcg
+fi
+
 
 # Add current user to the casparcg group to make media file managemnt easier
 usermod -aG casparcg $INSTALL_USER
