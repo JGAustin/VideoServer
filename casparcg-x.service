@@ -1,7 +1,6 @@
 [Unit]
 Description=CasparCG headless X session
-After=network-online.target
-Wants=network-online.target
+Requires=network.target
 
 [Service]
 User=casparcg

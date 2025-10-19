@@ -1,6 +1,7 @@
 [Unit]
 Description=CasparCG media scanner service
-After=network-online.target
+Requires=network.target
+
 
 [Service]
 Type=simple
